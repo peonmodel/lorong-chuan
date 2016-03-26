@@ -1,0 +1,12 @@
+<template name="Message">
+	<article class="message">
+		<span class="text">
+			{{message.text}}
+		</span>
+		{{#if isDifferentAuthor}}
+			<footer class="author">
+				- {{message.originator}} @ {{parseTime message.timestamp}}
+			</footer>
+		{{/if}}
+	</article>
+</template>

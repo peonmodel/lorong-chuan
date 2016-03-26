@@ -1,0 +1,16 @@
+//@dimgray: 'dimgray';
+
+.chat{
+	.message {
+		.text {
+			text-align: right;
+			clear: both;
+			display: block;
+		}
+		.author {
+			float: right;
+			color: dimgray;
+			font-style: italic;
+		}
+	}
+}

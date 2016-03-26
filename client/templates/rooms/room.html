@@ -1,0 +1,13 @@
+<template name="Room">
+	<h1>Access Code: {{accesscode}}</h1>
+	<h2>Players (2/10):</h2>
+	{{#each players}}
+	{{/each}}
+	<br/>
+	{{> Chat accesscode=accesscode}}
+	<br/>
+	<a class="ui button js-start">Start Game</a>
+	<a class="ui button js-joingame">Join Game</a>
+	<a class="ui button js-leavegame">Leave Game</a>
+	<a class="ui button js-leaveroom">Leave Room</a>
+</template>

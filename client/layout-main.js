@@ -4,7 +4,7 @@ function createGuest(){
 //		email: '',
 		password: Random.id(),
 		profile: {
-			registered: false,  // is guest user
+			is_registered: false,  // is guest user
 			date_created: new Date(),
 			last_active: new Date(),
 		},
@@ -24,7 +24,7 @@ Template['layout-main'].onCreated(function(){
 });
 
 Template['layout-main'].events({
-	'click button.logout'(event){
+	'click .js-logout'(event){
 		// TODO: if guest, destroy guest
 		Meteor.logout((err)=>{
 			if (err) {
@@ -38,7 +38,7 @@ Template['layout-main'].events({
 
 // okay
 Template.GuestLogIn.events({
-	'click button.guestlogin'(){
+	'click .js-guestlogin'(){
 		createGuest();
 	},
 });
@@ -50,11 +50,11 @@ Template.RegisterOrLogin.onCreated(function(){
 });
 
 Template.RegisterOrLogin.events({
-	'click button.login'(){
+	'click .js-login'(){
 		let instance = Template.instance();
 		let toggled = instance.toggled.get();
 		console.log('toggled', toggled)
-		
+
 		if (toggled){
 			// create account
 			let username = $(instance.find('input.username')).val();
@@ -62,7 +62,7 @@ Template.RegisterOrLogin.events({
 			let password = $(instance.find('input.password')).val();
 			// if password is '', error or too short
 			// if already logged in as guest, change username & password instead
-						
+
 			Meteor.loginWithPassword({username: username}, password, (err)=>{
 				if (err) {
 					console.error(err.reason);
@@ -73,7 +73,7 @@ Template.RegisterOrLogin.events({
 			instance.toggled.set(!toggled);
 		}
 	},
-	'click button.register'(){
+	'click .js-register'(){
 		let instance = Template.instance();
 		let toggled = instance.toggled.get();
 		console.log('toggled', toggled)
@@ -84,19 +84,19 @@ Template.RegisterOrLogin.events({
 			let password = $(instance.find('input.password')).val();
 			// if password is '', error or too short
 			// if already logged in as guest, change username & password instead
-			
+
 			let user = Meteor.user();
 			let guest_id = null;
-			if (!!user && user.profile.registered === false){
+			if (!!user && user.profile.is_registered === false){
 				guest_id = user._id;
-			} 
+			}
 				// not logged in at all
 			Accounts.createUser({
 				username: username,
 //				email: email,
 				password: password,
 				profile: {
-					registered: true,
+					is_registered: true,
 					date_created: new Date(),
 					last_active: new Date(),
 					guest_id: guest_id,
@@ -109,11 +109,11 @@ Template.RegisterOrLogin.events({
 					sAlert.success(`account registered`);
 				}
 			});
-			
+
 		} else {
 			instance.toggled.set(!toggled);
 		}
-		
+
 	},
 });
 

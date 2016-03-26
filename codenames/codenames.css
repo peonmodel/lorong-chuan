@@ -1,0 +1,36 @@
+/*
+.margin {
+    margin-bottom: 30px;
+}
+.word {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 46px;
+}
+
+.word.active.all-revealed {
+    opacity: 0.3;
+}
+#blue-score {
+    color: white;
+    background-image: linear-gradient(to left, rgba(51, 122, 183, 0), rgba(38, 90, 136, 1));
+}
+#red-score {
+    color: white;
+    background-image: linear-gradient(to right, rgba(217, 83, 79, 0), rgba(193, 46, 42, 1) 75%);
+}
+#blue-text, #red-text {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#board-id-form {
+    margin-top: 20px;
+}
+*/
+
+/*to make words readable on mobile display*/
+/*
+.btn-group-lg>.btn, .btn-lg {
+    font-size: 13px;
+}*/

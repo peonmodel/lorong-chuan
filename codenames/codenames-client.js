@@ -1,0 +1,3 @@
+//Template.codenames.onCreated(function(){
+//	
+//});

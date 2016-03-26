@@ -1,0 +1,86 @@
+<head>
+  <title>lorong</title>
+</head>
+
+<body></body>
+
+<template name="layout-main">
+	Layout
+	{{> sAlert}}
+	{{#if currentUser}}
+	Currently logged in as {{currentUser.username}}
+	<button class="logout">Log Out</button>
+	{{else}}
+	{{#if loggingIn}}
+		Logging In...
+	{{/if}}
+	Not logged in
+	<button class="register">Register</button>
+	<button class="login">Log In</button>
+	<input type="text" class="loginAs" placeholder="UserName">
+	{{/if}}
+	{{> Template.dynamic template=content}}
+	
+</template>
+
+<template name="Lobby">
+	<h1>Public Lobby</h1>
+	<input type="text" class="username" value={{defaultusertext}} {{readonly}} placeholder="Username Here">
+  <br/>
+	<button class="createRoom">Create Room</button>
+	<button class="clearAll">Clear All Rooms</button>
+	<br/>
+	Public Room List:
+  {{#each rooms}}
+	<br/>
+		{{> RoomListItem}}
+	{{/each}}
+	<br/>
+	Chat:
+	{{#each messages}}
+		{{text}}
+	{{/each}}
+	<br />
+	<input type="text" class="msg">
+	<button class="submit">Submit</button>
+	
+	<br />
+	<input type="text" class="accesscode">
+	<button class="join">Join Game</button>
+</template>
+
+<template name="RoomListItem">
+	accesscode: {{_id}} - public: {{public}}
+	<button class="jointhisgame">join this game</button>
+</template>
+
+<template name="Room">
+	<h1>Access Code: {{accesscode}}</h1>
+	<h2>Players (2/10):</h2>
+	{{#each players}}
+	{{/each}}
+	<br/>
+	Chat
+	<br/>
+	{{#each messages}}
+		<br/>
+		{{text}} -- {{originator}} @ {{parseTime timestamp}}
+	{{/each}}
+	<br/>
+	<input type="text" class="reply">
+	<button class="send">Send</button>
+	<br/>
+	<button class="start">Start Game</button>
+	<button class="joingame">Join Game</button>
+</template>
+
+<!--
+<template name="codenames">
+	<h1 class="">Codenames</h1>
+	<div class="">
+		Web version of the boardgame Codenames.  Please support the
+		original designers by
+		<a href="http://amzn.com/B014Q1XX9S">purchasing</a> a copy!
+	</div>
+	
+</template>-->

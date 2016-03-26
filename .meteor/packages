@@ -29,3 +29,7 @@ juliancwirko:s-alert
 momentjs:moment
 #copleykj:livestamp     # TODO: livestamp
 meteortoys:allthings
+semantic:ui
+flemay:less-autoprefixer  # required for semantic-ui to work
+
+percolate:synced-cron

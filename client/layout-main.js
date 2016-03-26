@@ -1,35 +1,31 @@
+function createGuest(){
+	Accounts.createUser({
+		username: 'user_'+Random.id(7),
+//		email: '',
+		password: Random.id(),
+		profile: {
+			registered: false,  // is guest user
+			date_created: new Date(),
+			last_active: new Date(),
+		},
+	}, (err)=>{
+		if (err) {
+			console.error(err);
+			sAlert.error(`unable to create temporary account`);
+		}
+	});
+}
+
+Template['layout-main'].onCreated(function(){
+	if (!!Meteor.user() && !!Meteor.loggingIn()){
+		// creates guest account upon reload if not already logged in
+//		createGuest();
+	}
+});
+
 Template['layout-main'].events({
-	'click button.register'(event){
-		let instance = Template.instance();
-		let registerAs = $(instance.find('input.loginAs')).val();
-		console.log('registerAs', registerAs);
-		Accounts.createUser({
-			username: registerAs,
-//				email: '',
-			password: Session.get('sessionUUID'),
-			profile: {
-//					date_created: new Date(),
-//					last_active: new Date(),
-//					registered: false,  // is temp
-			},
-		}, (err)=>{
-			console.log(err);
-//				sAlert()
-		});			
-	},
-	'click button.login'(event){
-		let instance = Template.instance();
-		let loginAs = $(instance.find('input.loginAs')).val();
-		console.log('loginAs', loginAs);
-		Meteor.loginWithPassword(
-			{username: loginAs}, 
-			Session.get('sessionUUID'), 
-			(err)=>{
-				console.log('log in', err)
-			}
-		);
-	},
 	'click button.logout'(event){
+		// TODO: if guest, destroy guest
 		Meteor.logout((err)=>{
 			if (err) {
 				sAlert.error(`error logging out`);
@@ -37,5 +33,93 @@ Template['layout-main'].events({
 				sAlert.success(`logged out`);
 			}
 		});
+	},
+});
+
+// okay
+Template.GuestLogIn.events({
+	'click button.guestlogin'(){
+		createGuest();
+	},
+});
+
+Template.RegisterOrLogin.onCreated(function(){
+	let instance = this;
+	instance.toggled = new ReactiveVar(!Meteor.user());  // maybe no need
+	console.log('RegisterOrLogin created')
+});
+
+Template.RegisterOrLogin.events({
+	'click button.login'(){
+		let instance = Template.instance();
+		let toggled = instance.toggled.get();
+		console.log('toggled', toggled)
+		
+		if (toggled){
+			// create account
+			let username = $(instance.find('input.username')).val();
+			// if username is '', error
+			let password = $(instance.find('input.password')).val();
+			// if password is '', error or too short
+			// if already logged in as guest, change username & password instead
+						
+			Meteor.loginWithPassword({username: username}, password, (err)=>{
+				if (err) {
+					console.error(err.reason);
+					sAlert.error(`error logging in: ${err.reason}`);
+				}
+			});
+		} else {
+			instance.toggled.set(!toggled);
+		}
+	},
+	'click button.register'(){
+		let instance = Template.instance();
+		let toggled = instance.toggled.get();
+		console.log('toggled', toggled)
+		if (toggled){
+			// create account
+			let username = $(instance.find('input.username')).val();
+			// if username is '', error
+			let password = $(instance.find('input.password')).val();
+			// if password is '', error or too short
+			// if already logged in as guest, change username & password instead
+			
+			let user = Meteor.user();
+			let guest_id = null;
+			if (!!user && user.profile.registered === false){
+				guest_id = user._id;
+			} 
+				// not logged in at all
+			Accounts.createUser({
+				username: username,
+//				email: email,
+				password: password,
+				profile: {
+					registered: true,
+					date_created: new Date(),
+					last_active: new Date(),
+					guest_id: guest_id,
+				},
+			}, (err)=>{
+				if (err) {
+					console.error(err);
+					sAlert.error(`unable to create account: ${err.reason}`);
+				} else {
+					sAlert.success(`account registered`);
+				}
+			});
+			
+		} else {
+			instance.toggled.set(!toggled);
+		}
+		
+	},
+});
+
+Template.RegisterOrLogin.helpers({
+	toggled: function(){
+		let instance = Template.instance();
+		return instance.toggled.get();
 	},
 });

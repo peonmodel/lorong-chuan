@@ -32,4 +32,6 @@ meteortoys:allthings
 semantic:ui
 flemay:less-autoprefixer  # required for semantic-ui to work
 
+reactive-var
+
 percolate:synced-cron

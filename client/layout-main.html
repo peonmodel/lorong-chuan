@@ -1,23 +1,48 @@
 <template name="layout-main">
 	<div class="ui container">
 		{{> sAlert}}
+		<br/>
 		{{#if currentUser}}
-		Logged in as {{currentUser.username}}
-		<button class="ui button logout">Log Out</button>
+			{{#unless currentUser.profile.registered}}
+				Logged in as Guest {{currentUser.username}}
+				<button class="ui button logout">Log out</button>
+				{{> RegisterOrLogin}}
+			{{else}}
+				Logged in as {{currentUser.username}}
+				<button class="ui button logout">Log out</button>
+			{{/unless}}
+			
 		{{else}}
-		{{#if loggingIn}}
-			Logging In...
+			{{#if loggingIn}}
+				Logging in...
+			{{else}}
+				{{> RegisterOrLogin}}
+				{{> GuestLogIn}}
+			{{/if}}		
 		{{/if}}
-		Not logged in
-		<button class="ui button register">Register</button>
-		<button class="ui button login">Log In</button>
-		<div class="ui input">
-			<input type="text" class="loginAs" placeholder="UserName">
-		</div>
-		
-		{{/if}}
+		<hr>
 		{{> Template.dynamic template=content}}
 	</div>
-	
-	
+</template>
+
+<template name="RegisterOrLogin">
+	{{#if toggled}}
+		<div class="ui input">
+			<input type="text" class="username" placeholder="username">
+		</div>
+<!--
+		<div class="ui input">
+			<input type="text" class="email" placeholder="optional">
+		</div>
+-->
+		<div class="ui input">
+			<input type="password" class="password">
+		</div>
+	{{/if}}
+	<button class="ui button login">Login</button>
+	<button class="ui button register">Register</button>
+</template>
+
+<template name="GuestLogIn">
+	<button class="ui button guestlogin">Guest login</button>
 </template>

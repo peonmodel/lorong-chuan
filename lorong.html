@@ -4,30 +4,12 @@
 
 <body></body>
 
-<template name="layout-main">
-	Layout
-	{{> sAlert}}
-	{{#if currentUser}}
-	Currently logged in as {{currentUser.username}}
-	<button class="logout">Log Out</button>
-	{{else}}
-	{{#if loggingIn}}
-		Logging In...
-	{{/if}}
-	Not logged in
-	<button class="register">Register</button>
-	<button class="login">Log In</button>
-	<input type="text" class="loginAs" placeholder="UserName">
-	{{/if}}
-	{{> Template.dynamic template=content}}
-	
-</template>
-
 <template name="Lobby">
 	<h1>Public Lobby</h1>
-	<input type="text" class="username" value={{defaultusertext}} {{readonly}} placeholder="Username Here">
+	<input type="text" class="ui input username" value={{defaultusertext}} {{readonly}} placeholder="Username Here">
   <br/>
-	<button class="createRoom">Create Room</button>
+	<button class="ui button createRoom">Create Room</button>
+	
 	<button class="clearAll">Clear All Rooms</button>
 	<br/>
 	Public Room List:

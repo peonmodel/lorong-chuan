@@ -35,3 +35,5 @@ flemay:less-autoprefixer  # required for semantic-ui to work
 reactive-var
 
 percolate:synced-cron
+fourseven:scss
+convexset:collection-tools

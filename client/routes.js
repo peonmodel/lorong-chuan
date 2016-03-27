@@ -10,10 +10,10 @@ FlowRouter.route('/', {
 	},
 });
 
-FlowRouter.route('/:accesscode', {
+FlowRouter.route('/room/:accesscode', {
 	name: 'room',
 	action(pathParams, queryParams){
-		if (!Rooms.findOne(pathParams.accesscode)){
+		if (!Room.collection.findOne(pathParams.accesscode)){
 			FlowRouter.go('public');
 			sAlert.warning('room not found, redirecting to public lobby');
 			return;

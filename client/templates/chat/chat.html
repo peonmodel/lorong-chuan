@@ -1,0 +1,20 @@
+<template name="Chat">
+	<div class="chat">
+	{{#if Template.subscriptionsReady}}
+		<h2>Chat</h2>
+		{{#each message in messages}}
+			{{> Message message=message }}<!--isDifferentAuthor=(differentAuthor message)-->
+		{{/each}}
+		<div class="ui form">
+			<div class="field">
+				<input type="text" class="reply" placeholder="Enter your message..." />
+				<a class="ui button js-send">Send</a>
+			</div>
+		</div>
+		{{else}}
+			<h2>Loading</h2>
+		{{/if}}
+	</div>
+</template>
+
+

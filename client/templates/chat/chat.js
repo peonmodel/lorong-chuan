@@ -18,7 +18,7 @@ Template.Chat.helpers({
 	},
 	differentAuthor(message){
 		let instance = Template.instance();
-		let isDifferentAuthor = instance.prevMessage.originator !== message.originator;
+		let isDifferentAuthor = instance.prevMessage.sender !== message.sender;
 		instance.prevMessage = message;
 		return isDifferentAuthor;
 	},

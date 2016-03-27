@@ -26,6 +26,7 @@ Template['layout-main'].onCreated(function(){
 Template['layout-main'].events({
 	'click button.logout'(event){
 		// TODO: if guest, destroy guest
+//		let user_id = Meteor.userId();
 		Meteor.logout((err)=>{
 			if (err) {
 				sAlert.error(`error logging out`);
@@ -36,7 +37,6 @@ Template['layout-main'].events({
 	},
 });
 
-// okay
 Template.GuestLogIn.events({
 	'click button.guestlogin'(){
 		createGuest();

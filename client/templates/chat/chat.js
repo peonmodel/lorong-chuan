@@ -18,16 +18,19 @@ Template.Chat.helpers({
 	},
 	messages(){
 		let instance = Template.instance();
-		return Message.collection.find({room_id: instance.data.accesscode}, {
+		let messages = Message.collection.find({room_id: instance.data.accesscode}, {
 			sort: {timestamp: -1},
 			limit: 5,
+		}).fetch();
+		let checkedMessages = _.each(messages, (message) => {
+			if (instance.prevMessage && instance.prevMessage.sender !== message.sender) {
+				message.isDifferentAuthor = true;
+			}
+			instance.prevMessage = message;
+			return message;
 		});
-	},
-	differentAuthor(message){
-		let instance = Template.instance();
-		let isDifferentAuthor = instance.prevMessage.sender !== message.sender;
-		instance.prevMessage = message;
-		return isDifferentAuthor;
+		messages = messages.reverse();
+		return checkedMessages;
 	},
 });
 

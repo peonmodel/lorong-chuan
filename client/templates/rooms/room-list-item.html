@@ -1,6 +1,6 @@
 <template name="RoomListItem">
 	<li>
-		accesscode: {{room._id}} - {{#unless room.is_public}} <i class="icon lock"></i> Locked {{/unless}}
+		accesscode: {{room._id}} {{#unless room.is_public}} <i class="hide icon"></i> Private {{/unless}}
 		<a class="ui button js-jointhisgame">Join this room</a>
 	</li>
 </template>

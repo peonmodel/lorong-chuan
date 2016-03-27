@@ -6,6 +6,9 @@ Template.Lobby.helpers({
 	rooms: function(){
 		return Room.collection.find({is_public: true});
 	},
+	privateRooms: function(){
+		return Room.collection.find({is_public: false});
+	},
 	messages: function(){
 		return Message.collection.find({room_id: 'public'});
 	},
@@ -31,6 +34,27 @@ Template.Lobby.events({
 	'click .js-createRoom' (event) {
 		if (!!Meteor.user()){
 			Meteor.call('rooms/add', true, 7, (err, res)=>{
+				if (err) {
+					console.error(err);
+				} else {
+					sAlert.success(`Room created, redirecting to room: ${res}`);
+					// redirect to newly created room
+					Meteor.call('rooms/join', res, (error, result)=>{
+						if (error) {
+							console.log(error);
+						} else {
+							FlowRouter.go('room', {accesscode: res});
+						}
+					});
+				}
+			});
+		} else {
+			sAlert.error(`log in required to join room, try login as guest or register an account`);
+		}
+	},
+	'click .js-createPrivateRoom' (event) {
+		if (!!Meteor.user()){
+			Meteor.call('rooms/add', false, 7, (err, res)=>{
 				if (err) {
 					console.error(err);
 				} else {

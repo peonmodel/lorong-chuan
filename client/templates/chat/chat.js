@@ -37,7 +37,9 @@ Template.Chat.helpers({
 Template.Chat.events({
 	'click .js-send': function (event){
 		let instance = Template.instance();
-		let reply = $(instance.find('.reply')).val();
+		let $reply = $(instance.find('.reply'));
+		let reply = $reply.val();
+		$reply.val('');
 		let sender = Meteor.user().username;
 		Meteor.call('messages/add', reply, sender, instance.data.accesscode, function (error, result) {
 			console.log(error,result)

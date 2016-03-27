@@ -1,4 +1,4 @@
-//@dimgray: 'dimgray';
+$dimgray: 'dimgray';
 
 .chat{
 	.message {
@@ -9,8 +9,11 @@
 		}
 		.author {
 			float: right;
-			color: dimgray;
+			color: $dimgray;
 			font-style: italic;
+		}
+		&.input {
+			clear: both;
 		}
 	}
 }

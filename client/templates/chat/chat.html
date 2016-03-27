@@ -2,19 +2,23 @@
 	<div class="chat">
 	{{#if Template.subscriptionsReady}}
 		<h2>Chat</h2>
-		{{#each message in messages}}
-			{{> Message message=message }}
-		{{/each}}
-		{{#if currentUser}}
-		<div class="ui form">
-			<div class="field">
-				<input type="text" class="reply" placeholder="Enter your message..." />
-				<a class="ui button js-send">Send</a>
-			</div>
+		<div class="messages">
+			{{#each message in messages}}
+				{{> Message message=message }}
+			{{/each}}
 		</div>
-		{{else}}
-		<p class="warning">You need to be logged in to chat!</p>
-		{{/if}}
+		<div class="message input">
+			{{#if currentUser}}
+				<div class="ui form">
+					<div class="ui fluid action input">
+						<input type="text" class="reply" placeholder="Enter your message..." />
+						<div class="ui button js-send">Send</div>
+					</div>
+				</div>
+			{{else}}
+				<p class="warning">You need to be logged in to chat!</p>
+			{{/if}}
+		</div>
 		{{else}}
 			<h2>Loading</h2>
 		{{/if}}

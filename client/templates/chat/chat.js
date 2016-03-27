@@ -2,6 +2,13 @@ Template.Chat.onRendered(function () {
 	let instance = this;
 	// Keep track of what the previous message was
 	instance.prevMessage = {};
+
+	instance.autorun(function (c) {
+		instance.subscribe('Messages');
+		if(instance.subscriptionsReady()) {
+			c.stop();
+		}
+	});
 });
 
 Template.Chat.helpers({

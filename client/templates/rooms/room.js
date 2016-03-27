@@ -4,19 +4,9 @@ Template.Room.onRendered(function () {
 		instance.subscribe('Rooms');
 		if(instance.subscriptionsReady()) {
 			instance.accesscode = FlowRouter.getParam('accesscode');
-			instance.user = Session.get('session');
-			let taken = Players.findOne({
-				name: instance.user,
-				room: instance.accesscode,
-			});
-			if (!!taken) {
-				let new_user = instance.user + Random.id(4);
-				sAlert.error(`username ${instance.user} already taken, renaming to ${new_user}`);
-				Session.set('session', new_user);
-				instance.user = new_user;
-			}
+
 			Players.insert({
-				name: instance.user,
+				name: Meteor.user().username,
 				room: instance.accesscode,
 			});
 			c.stop();

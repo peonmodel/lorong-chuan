@@ -35,14 +35,7 @@ Template.Chat.events({
 	'click .js-send': function (event){
 		let instance = Template.instance();
 		let reply = $(instance.find('.reply')).val();
-		/*let message = {
-			room_id: instance.data.accesscode,
-			text: reply,
-			timestamp: new Date(),
-			originator: Session.get('session'),
-		};
-		Messages.insert(message);*/
-		let sender = Session.get('session');
+		let sender = Meteor.user().username;
 		Meteor.call('messages/add', reply, sender, instance.data.accesscode, function (error, result) {
 			console.log(error,result)
 		});

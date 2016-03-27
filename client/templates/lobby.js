@@ -9,30 +9,47 @@ Template.Lobby.helpers({
 	messages: function(){
 		return Message.collection.find({room_id: 'public'});
 	},
-	defaultusertext(){
-		console.log('user', Meteor.user())
-		uu = Meteor.user()
-		if (!!Meteor.user()){
-			return Meteor.user().username;
-		} else {
-			return '';
-		}
-	},
-	readonly(){
-		if (!!Meteor.user()){
-			return 'readonly';
-		} else {
-			return '';
-		}
-	},
+//	defaultusertext(){
+//		console.log('user', Meteor.user())
+//		uu = Meteor.user()
+//		if (!!Meteor.user()){
+//			return Meteor.user().username;
+//		} else {
+//			return '';
+//		}
+//	},
+//	readonly(){
+//		if (!!Meteor.user()){
+//			return 'readonly';
+//		} else {
+//			return '';
+//		}
+//	},
 });
 
 Template.Lobby.events({
 	'click .js-createRoom' (event) {
-		let roomid = Meteor.call('rooms/add', true, 7, function (error, result) {
-			console.log(error,result)
-		});
+		if (!!Meteor.user()){
+			Meteor.call('rooms/add', true, 7, (err, res)=>{
+				if (err) {
+					console.error(err);
+				} else {
+					sAlert.success(`Room created, redirecting to room: ${res}`);
+					// redirect to newly created room
+					Meteor.call('rooms/join', res, (error, result)=>{
+						if (error) {
+							console.log(error);
+						} else {
+							FlowRouter.go('room', {accesscode: res});
+						}
+					});
+				}
+			});
+		} else {
+			sAlert.error(`log in required to join room, try login as guest or register an account`);
+		}
 	},
+	// TODO: to be removed, for testing only
 	'click .js-clearAll' (event) {
 		event.preventDefault();
 		Meteor.call('rooms/removeAll', {}, (err, res)=>{
@@ -47,6 +64,10 @@ Template.Lobby.events({
 		});*/
 	},
 	'click .js-join' (event) {
+		if (!Meteor.user()){
+			sAlert.error(`log in required to join room, try login as guest or register an account`);
+			return;
+		}
 		let instance = Template.instance();
 		let accesscode = $(instance.find('.accesscode')).val();
 		let target = Room.collection.findOne({_id: accesscode});
@@ -69,9 +90,9 @@ Template.Lobby.events({
 			sAlert.error('Room is full');
 		}
 	},
-	'change input.username' (event) {
-		let user = $(event.target).val();
-		Session.set('session', user);  // problem, what if duplicate?
-
-	},
+//	'change input.username' (event) {
+//		let user = $(event.target).val();
+//		Session.set('session', user);  // problem, what if duplicate?
+//
+//	},
 });

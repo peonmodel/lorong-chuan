@@ -1,5 +1,20 @@
-TODO:
-setup the user accounts (temp/perm)
+##TODO:
+
+###Misc
 setup players collection with temp names
-set different games as packages
 setup CRON job to clear collections
+
+###Accounts:
+allow guest accounts to change name
+create Guest account with user set name
+
+###Chat
+webRTC
+
+###Games
+add game in main app
+separate game into package
+
+
+##Currently doing:
+Create Room, Chat, Players, with unique temp names

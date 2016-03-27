@@ -1,8 +1,28 @@
 Meteor.startup(function () {
-		// code to run on server at startup
+	// code to run on server at startup
 //		Players.remove({});
 //		Messages.remove({});
 //		Rooms.remove({});
+//	SyncedCron.start();
+	// create public chat/room on start up
+	// clear (> 1 hour old) public room messages every hour
+});
+
+SyncedCron.add({
+	name: 'clear inactive Guest accounts',
+	schedule: function(parse){
+		// recur every day, first hour
+		return parse.recur().first().hour();
+//		return parse.recur().every(5).second();
+	},
+	job: function(){
+		console.log('first hour of every day');
+//		let cleared = Meteor.users._collection.remove({
+//			// clear registered: false
+//			// && last_active  > 12 hours
+//		});
+//		console.log(`cleared ${cleared} inactive Guests`);
+	},
 });
 
 Meteor.methods({

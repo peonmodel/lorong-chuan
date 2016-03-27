@@ -4,6 +4,8 @@ Meteor.startup(function () {
 //		Messages.remove({});
 //		Rooms.remove({});
 //	SyncedCron.start();
+	// create public chat/room on start up
+	// clear (> 1 hour old) public room messages every hour
 });
 
 SyncedCron.add({

@@ -5,51 +5,36 @@ Messages = new Mongo.Collection('Messages');
 Rooms = new Mongo.Collection('Rooms');
 
 if (Meteor.isClient) {
-	
-	Session.setDefault('session', 'user_'+Random.id(4));
-	Session.setDefault('sessionUUID', Random.id());
-	
-	Template.Lobby.onCreated(function(){
-		let instance = this;
-	});
+		
+//	Template.Lobby.onCreated(function(){
+//		let instance = this;
+//	});
 	
   Template.Lobby.helpers({
 		rooms: function(){
 			return Rooms.find({public: true});
 		},
 		messages: function(){
-			return Messages.find({roomid: 'public'});
-		},
-		defaultusertext(){
-			console.log('user', Meteor.user())
-			uu = Meteor.user()
-			if (!!Meteor.user()){
-				return Meteor.user().username;
-			} else {
-				return '';
-			}
-		},
-		readonly(){
-			if (!!Meteor.user()){
-				return 'readonly';
-			} else {
-				return '';
-			}
+			return Messages.find({room_id: 'public'});
 		},
   });
 
   Template.Lobby.events({
     'click button.createRoom'(event) {
-			let roomid = Rooms.insert({
-				_id: Random.id(3),
-				public: true,
-				capacity: 7,
-				occupancy: 0,
-			});
+			if (Meteor.user()){
+				let roomid = Rooms.insert({
+					_id: Random.id(3),
+					public: true,
+					capacity: 7,
+					occupancy: 0,
+				});
+			} else {
+				sAlert.error(`must be logged in to create room`);
+			}
     },
+		// TODO: remove clearAll, only for testing
 		'click button.clearAll'(event) {
 			event.preventDefault();
-      // increment the counter when button is clicked
 			Meteor.call('Rooms/clear', {}, (err, res)=>{
 				if (err) {
 					console.log(err);
@@ -69,7 +54,7 @@ if (Meteor.isClient) {
 				roomid: 'public',
 				text: msg,
 				timestamp: new Date(),
-				originator: Session.get('session'),
+				originator: Meteor.user().username,
 			});
 		},
 		'click button.join'(){
@@ -88,11 +73,6 @@ if (Meteor.isClient) {
 				sAlert.error('room is full');
 			}
 		},
-		'change input.username'(event){
-			let user = $(event.target).val();
-			Session.set('session', user);  // problem, what if duplicate?
-
-		},
   });
 	
 	Template.RoomListItem.helpers({
@@ -110,19 +90,12 @@ if (Meteor.isClient) {
 		let instance = this;
 		console.log(instance)
 		instance.accesscode = FlowRouter.getParam('accesscode');
-		instance.user = Session.get('session');
 		let taken = Players.findOne({
 			name: instance.user,
 			room: instance.accesscode,
 		});
-		if (!!taken) {
-			let new_user = instance.user + Random.id(4);
-			sAlert.error(`username ${instance.user} already taken, renaming to ${new_user}`);
-			Session.set('session', new_user);
-			instance.user = new_user;
-		}
 		Players.insert({
-			name: instance.user,
+			name: Meteor.user().username,
 			room: instance.accesscode,
 		});
 //		instance.subscribe();
@@ -154,7 +127,7 @@ if (Meteor.isClient) {
 				roomid: instance.accesscode,
 				text: reply,
 				timestamp: new Date(),
-				originator: Session.get('session'),
+				originator: Meteor.user().username,
 			});
 		},
 	});

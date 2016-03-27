@@ -1,0 +1,21 @@
+<template name="Chat">
+	Chat: 
+	<div id="chatbody">
+		{{#each messages}}
+			<br/>
+			{{text}}
+		{{/each}}
+	</div>
+	<form id="transmit">
+		<div class="ui input">
+			<input type="text" class="">
+		</div>
+		<div class="ui button">
+			<button id="sendButton">Send</button>
+		</div>
+	</form>
+</template>
+
+<template name="MessageItem">
+<!--	TODO: To be styled-->
+</template>

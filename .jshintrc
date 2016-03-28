@@ -141,9 +141,6 @@
 			"PackageUtilities": true,
 			"ThreeWay": true,
 			"CollectionTools": true,
-			"TemplateLevelAuth": true,
-
-
-
+			"TemplateLevelAuth": true
 		}
 }

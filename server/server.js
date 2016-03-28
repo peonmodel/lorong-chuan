@@ -26,12 +26,16 @@ SyncedCron.add({
 });
 
 Meteor.methods({
-	//TODO: remove these and put them in the right file
+	// TODO: remove these and put them in the right file
 	'Messages/clear': function(selector){
 		return Messages.remove(selector);
 	},
 	'Rooms/clear': function(selector){
 		return Rooms.remove(selector);
+	},
+	'Main/onBrowserClose': function(){
+		// TODO: remove this user from rooms/games etc
+		console.log(Meteor.user());
 	},
 });
 

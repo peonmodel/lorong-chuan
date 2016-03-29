@@ -1,12 +1,15 @@
 <template name="Message">
 	<article class="message">
-		<span class="text">
-			{{message.text}}
-		</span>
 		{{#if message.isDifferentAuthor}}
-			<footer class="author">
-				- {{message.sender}} @ {{parseTime message.timestamp}}
-			</footer>
+			<header>
+				{{message.sender}}
+			</header>
 		{{/if}}
+		<div class="text">
+			{{message.text}}
+		</div>
+		<footer class="author">
+			- {{message.sender}} @ {{parseTime message.timestamp}}
+		</footer>
 	</article>
 </template>

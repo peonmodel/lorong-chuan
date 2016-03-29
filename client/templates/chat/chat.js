@@ -19,9 +19,10 @@ Template.Chat.helpers({
 	messages(){
 		let instance = Template.instance();
 		let messages = Message.collection.find({room_id: instance.data.accesscode}, {
-			sort: {timestamp: -1},
-			limit: 5,
+			sort: {timestamp: -1}/*,
+			limit: 5,*/
 		}).fetch();
+		messages = messages.reverse();
 		let checkedMessages = _.each(messages, (message) => {
 			if (instance.prevMessage && instance.prevMessage.sender !== message.sender) {
 				message.isDifferentAuthor = true;
@@ -29,7 +30,6 @@ Template.Chat.helpers({
 			instance.prevMessage = message;
 			return message;
 		});
-		messages = messages.reverse();
 		return checkedMessages;
 	},
 });

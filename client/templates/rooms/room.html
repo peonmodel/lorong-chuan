@@ -6,9 +6,14 @@
 		{{#each players}}
 		{{/each}}
 		<br/>
+		Game:
+		<div class="ui container game">
+			{{> CodeNames}}
+		</div>
+		<br/>
 		{{> Chat accesscode=accesscode}}
 		<br/>
-		{{> CodeNames}}
+		
 		<a class="ui button js-start">Start Game</a>
 		<a class="ui button js-joingame">Join Game</a>
 		<a class="ui button js-leavegame">Leave Game</a>

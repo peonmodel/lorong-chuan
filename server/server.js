@@ -35,7 +35,8 @@ Meteor.methods({
 	},
 	'Main/onBrowserClose': function(){
 		// TODO: remove this user from rooms/games etc
-		console.log(Meteor.user());
+//		console.log(Meteor.user());
+		console.log('browserclosed')
 	},
 });
 

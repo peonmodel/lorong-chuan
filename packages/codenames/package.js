@@ -12,12 +12,15 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.3');
-  api.use('ecmascript');
+  api.use(['ecmascript', 'mongo']);
 	api.use(['templating'], 'client');
 	api.addFiles([
 		// css styles & html
 		'templates/codenames.html',
 	], 'client');
+	api.addFiles([
+		'words.js',
+	]);
   api.mainModule('codenames-client.js', 'client');
 	api.mainModule('codenames-server.js', 'server');
 });
@@ -25,6 +28,6 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
-  api.use('codenames');
+  api.use('freelancecourtyard:codenames');
   api.mainModule('codenames-tests.js');
 });

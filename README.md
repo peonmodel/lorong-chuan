@@ -27,6 +27,10 @@ add game in main app
 
 separate game into package
 
+game schema should have teams & players & room
+
+create generic game parent class
+
 ##Currently doing:
 Create Room, Chat, Players, with unique temp names, host, host powers, room name
 

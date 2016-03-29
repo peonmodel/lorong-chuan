@@ -6,47 +6,27 @@
     <a href="http://amzn.com/B014Q1XX9S">purchasing</a> a copy!
 	</div>
 	<div class="ui fluid container">
-		<div class="ui button hide">
-			<button class="ui button" id="hide">Show/Hide solution</button>
-		</div>
-		<div class="ui equal width grid container">
-			<div class="row">
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-			</div>
-			<div class="row">
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-			</div>
-			<div class="row">
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-			</div>
-			<div class="row">
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-			</div>
-			<div class="row">
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-				<div class="column"><button class="ui button">Testing</button></div>
-			</div>
+		<button class="ui button" id="hide">Show/Hide solution</button>
+		<div class="ui five column padded grid">
+			{{#each getWords}}
+<!--			TODO: button dont change cursor when mouseover-->
+				<div class="{{team}} column codenames-word center aligned" data-value="{{@index}}">{{word}}</div>
+			{{/each}}
+<!--
+			<div class="red column">Red</div>
+			<div class="orange column">Orange</div>
+			<div class="yellow column">Yellow</div>
+			<div class="olive column">Olive</div>
+			<div class="green column">Green</div>
+			<div class="teal column">Teal</div>
+			<div class="blue column">Blue</div>
+			<div class="violet column">Violet</div>
+			<div class="purple column">Purple</div>
+			<div class="pink column">Pink</div>
+			<div class="brown column">Brown</div>
+			<div class="grey column">Grey</div>
+			<div class="black column">Black</div>
+-->
 		</div>
 	</div>
-	
-	
 </template>

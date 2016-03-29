@@ -68,10 +68,10 @@ Template.Room.events({
 	},
 });
 
-Template.Room.onDestroyed(function () {
-	let instance = this;
-	Players.remove({
-		name: instance.user,
-		room: instance.accesscode
-	});
-});
+//Template.Room.onDestroyed(function () {
+//	let instance = this;
+//	Players.remove({
+//		name: instance.user,
+//		room: instance.accesscode
+//	});
+//});

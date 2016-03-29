@@ -1,0 +1,52 @@
+$primary: cornsilk;
+$secundary: dimgray;
+$accent: darkred;
+.chat {
+	.messages{
+		overflow-y: scroll;
+		max-height: 310px;
+		.message {
+			float: left;
+			clear: both;
+			position: relative;
+			z-index: 1;
+			transition: all 0.2s cubic-bezier(0.31, 0.34, 0.3, 0.99) 0s;
+			border-radius: 6px;
+			padding: 12px;
+			box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.13);
+			width: 80%;
+			background: $primary;
+			margin-bottom: 24px;
+			&:before {
+				box-sizing: content-box;
+				z-index: -1;
+				position: absolute;
+				content: "";
+
+				width: 18px;
+				height: 20px;
+				content: "";
+				bottom: -5px;
+				right: 0;
+				background: $primary;
+				box-shadow: -2px 1px 1px rgba(0, 0, 0, 0.13);
+				transform: rotateX(3.437746770784939deg) rotateY(-7.448451336700702deg) rotateZ(-105deg) skewX(-36deg);
+			}
+
+			header {
+				color: $accent;
+				font-weight: bold;
+			}
+			.message {
+			}
+			footer {
+				text-align: right;
+				color: $secundary;
+			}
+		}
+	}
+	textarea {
+		border: none;
+		padding: 4px;
+	}
+}

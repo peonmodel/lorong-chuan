@@ -1,4 +1,3 @@
-BlazeLayout.setRoot('body');
 
 FlowRouter.route('/', {
 	name: 'public',

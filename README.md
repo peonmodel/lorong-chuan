@@ -34,3 +34,5 @@ Players can choose a nickname for each game, is not limited to username, require
 for certain games to be played
 
 greyed out disable buttons
+
+####notes

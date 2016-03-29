@@ -8,22 +8,22 @@ Meteor.startup(function () {
 	// clear (> 1 hour old) public room messages every hour
 });
 
-SyncedCron.add({
-	name: 'clear inactive Guest accounts',
-	schedule: function(parse){
-		// recur every day, first hour
-		return parse.recur().first().hour();
-//		return parse.recur().every(5).second();
-	},
-	job: function(){
-		console.log('first hour of every day');
-//		let cleared = Meteor.users._collection.remove({
-//			// clear registered: false
-//			// && last_active  > 12 hours
-//		});
-//		console.log(`cleared ${cleared} inactive Guests`);
-	},
-});
+//SyncedCron.add({
+//	name: 'clear inactive Guest accounts',
+//	schedule: function(parse){
+//		// recur every day, first hour
+//		return parse.recur().first().hour();
+////		return parse.recur().every(5).second();
+//	},
+//	job: function(){
+//		console.log('first hour of every day');
+////		let cleared = Meteor.users._collection.remove({
+////			// clear registered: false
+////			// && last_active  > 12 hours
+////		});
+////		console.log(`cleared ${cleared} inactive Guests`);
+//	},
+//});
 
 Meteor.methods({
 	// TODO: remove these and put them in the right file

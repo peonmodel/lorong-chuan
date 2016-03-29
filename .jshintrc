@@ -130,17 +130,10 @@
 			"BlazeLayout": true,
 			"CryptoJS": true,
 			"sAlert": true,
-			"AWS": true,
 			"moment": true,
 			"later": true,
 			"SimpleSchema": true,
 			"SemanticModal": true,
-			"DocHead": true,
-
-			// convexset packages
-			"PackageUtilities": true,
-			"ThreeWay": true,
-			"CollectionTools": true,
-			"TemplateLevelAuth": true
+			"DocHead": true
 		}
 }

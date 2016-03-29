@@ -12,6 +12,8 @@ create Guest account with user set name
 
 popup for login/guest login/register for optional email etc
 
+find a way to check for connected(active/idle) and disconnected users
+
 ###UI:
 greyed out disable buttons
 

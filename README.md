@@ -42,3 +42,4 @@ for certain games to be played
 greyed out disable buttons
 
 ####notes
+requires lodash as npm dependency

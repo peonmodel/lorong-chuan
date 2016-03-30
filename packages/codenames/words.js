@@ -1,3 +1,5 @@
+// should only export in main modules
+
 CodeNameWords = [
 	'Africa',
 	'Agent',

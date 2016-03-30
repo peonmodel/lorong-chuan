@@ -1,5 +1,3 @@
-export const name = 'codenames';
-
 // publish CodeNamesCollection
 
 Meteor.methods({

@@ -1,4 +1,4 @@
-export const name = 'codenames-client';
+export {CodeNameWords};
 
 Template.CodeNames.onCreated(function(){
 	let instance = this;

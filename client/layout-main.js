@@ -1,3 +1,8 @@
+//import { Template } from 'meteor/templating';
+//import { ReactiveVar } from 'meteor/reactive-var';
+//
+//import './main.html';
+
 function createGuest(){
 	Accounts.createUser({
 		username: 'user_'+Random.id(7),

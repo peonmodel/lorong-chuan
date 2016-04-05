@@ -1,5 +1,3 @@
-//export const CodeNamesCollection = CodeNamesCollection;
-
 CodeNamesCollection = new Mongo.Collection('CodeNames');
 
 CodeNamesCollection.schema = new SimpleSchema({

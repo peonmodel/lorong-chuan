@@ -43,3 +43,10 @@ greyed out disable buttons
 
 ####notes
 requires lodash as npm dependency
+
+do `meteor npm install`
+
+####misc notes
+continue using moment from atmosphere package instead of npm, 
+had some issues with ES6 import for momentjs
+

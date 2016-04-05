@@ -12,7 +12,11 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.3');
-  api.use(['ecmascript', 'mongo']);
+  api.use([
+		'ecmascript', 
+		'mongo', 
+		'aldeed:simple-schema'
+	]);
 	api.use(['templating'], 'client');
 	api.addFiles([
 		// css styles & html
@@ -20,7 +24,11 @@ Package.onUse(function(api) {
 	], 'client');
 	api.addFiles([
 		'words.js',
+		'codenames.js',
 	]);
+	Npm.require('lodash');
+	// there can only be 1 mainModule for each architecture
+	// export only works for mainModule
   api.mainModule('codenames-client.js', 'client');
 	api.mainModule('codenames-server.js', 'server');
 });

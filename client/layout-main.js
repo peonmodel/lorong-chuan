@@ -1,6 +1,10 @@
 //import { Template } from 'meteor/templating';
 //import { ReactiveVar } from 'meteor/reactive-var';
-//
+import { CodeNameWords, CodeNamesCollection } from "meteor/freelancecourtyard:codenames";
+
+// FIXME: remove this, temp access to console
+CodeNameWords_G = CodeNameWords;
+CodeNamesCollection_G = CodeNamesCollection;
 //import './main.html';
 
 function createGuest(){

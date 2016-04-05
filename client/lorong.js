@@ -1,6 +1,9 @@
-import {CodeNameWords} from "meteor/freelancecourtyard:codenames";
+import { CodeNameWords, CodeNamesCollection } from "meteor/freelancecourtyard:codenames";
 import { _ } from "lodash";
+// note, moment package dont support import ES6 syntax
+// reference: https://github.com/moment/moment/issues/2608
 //import { moment } from "moment";
+//moment = require('moment');
 
 if (Meteor.isClient) {
 	Meteor.startup(function(){

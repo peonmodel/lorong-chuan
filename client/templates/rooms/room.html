@@ -1,25 +1,35 @@
 <template name="Room">
 <div class="room">
 	{{#if Template.subscriptionsReady}}
-		<h1>Access Code: {{accesscode}}</h1>
-		<h2>Players ({{occupancy}}/{{capacity}}):</h2>
-		{{#each players}}
-		{{/each}}
-		<br/>
-		Game:
-		<div class="ui container game">
-			{{> CodeNames}}
-		</div>
-		<br/>
-		{{> Chat accesscode=accesscode}}
-		<br/>
-		
-		<a class="ui button js-start">Start Game</a>
-		<a class="ui button js-joingame">Join Game</a>
-		<a class="ui button js-leavegame">Leave Game</a>
-		<a class="ui button js-leaveroom">Leave Room</a>
+		{{> _Room room=getRoom accesscode=accesscode}}
 	{{else}}
 		<h2>Loading</h2>
 	{{/if}}
+</div>
+</template>
+
+<template name="_Room">
+<div class="room">
+	<h1>Access Code: {{accesscode}}</h1>
+	<h2>Players ({{room.occupancy}}/{{room.capacity}}):</h2>
+	{{#each players}}
+	{{/each}}
+	<br/>
+	Game:
+	{{#if room.game_id}}
+		<div class="ui container game">
+			{{> CodeNames gameId=room.game_id}}
+		</div>
+	{{else}}
+		<h2>No game is currently being played</h2>
+	{{/if}}
+	<br/>
+	{{> Chat accesscode=accesscode}}
+	<br/>
+
+	<a class="ui button js-start">Start Game</a>
+	<a class="ui button js-joingame">Join Game</a>
+	<a class="ui button js-leavegame">Leave Game</a>
+	<a class="ui button js-leaveroom">Leave Room</a>
 </div>
 </template>

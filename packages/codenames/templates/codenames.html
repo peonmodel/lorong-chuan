@@ -1,40 +1,41 @@
-<template name="CodeNamesSmartTemplate">
+<template name="CodeNames">
 <!--
 	smart templates are wrapper for the actual content template
 	basically subscriptions are first done here then passed on to content template
 -->
-	
+	<div class="CodeNames">
+		{{#if Template.subscriptionsReady}}
+			{{> _CodeNames game=getGame}}
+		{{else}}
+			<h2>Loading</h2>
+		{{/if}}
+	</div>
 </template>
 
-<template name="CodeNames">
+<template name="_CodeNames">
 	<h1>Codenames</h1>
 	<div class="credits">
-		Web version of the boardgame Codenames.  Please support the 
-    original designers by
-    <a href="http://amzn.com/B014Q1XX9S">purchasing</a> a copy!
+		Web version of the boardgame Codenames.  Please support the
+		original designers by
+		<a href="http://amzn.com/B014Q1XX9S">purchasing</a> a copy!
 	</div>
 	<div class="ui fluid container">
+	Active team: {{game.active_team}} <br />
+	status: {{game.status}} <br />
 		<button class="ui button" id="hide">Show/Hide solution</button>
 		<div class="ui five column padded grid">
-			{{#each getWords}}
-<!--			TODO: button dont change cursor when mouseover-->
-				<div class="{{team}} column codenames-word center aligned" data-value="{{@index}}">{{word}}</div>
-			{{/each}}
-<!--
-			<div class="red column">Red</div>
-			<div class="orange column">Orange</div>
-			<div class="yellow column">Yellow</div>
-			<div class="olive column">Olive</div>
-			<div class="green column">Green</div>
-			<div class="teal column">Teal</div>
-			<div class="blue column">Blue</div>
-			<div class="violet column">Violet</div>
-			<div class="purple column">Purple</div>
-			<div class="pink column">Pink</div>
-			<div class="brown column">Brown</div>
-			<div class="grey column">Grey</div>
-			<div class="black column">Black</div>
--->
+			<div class="ui row">
+				{{#each item in getWords}}
+					{{> _CodeNamesWord word=item.word team=item.team isChosen=item.isChosen isRevealed=game.is_revealed index=@index gameId=game._id}}
+				{{/each}}
+			</div>
 		</div>
+	</div>
+</template>
+
+
+<template name="_CodeNamesWord">
+	<div class="column codenames-word center aligned" style="cursor: pointer; padding: 2px;">
+		<a class="ui {{#if showColor}}{{team}}{{/if}} fluid button">{{word}}</a>
 	</div>
 </template>

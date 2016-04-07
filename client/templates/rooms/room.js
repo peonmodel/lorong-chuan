@@ -1,28 +1,37 @@
 Template.Room.onRendered(function () {
 	let instance = this;
+	instance.subscribe('Rooms');
 	instance.autorun(function (c) {
-		instance.subscribe('Rooms');
 		if(instance.subscriptionsReady()) {
-			instance.accesscode = FlowRouter.getParam('accesscode');
-
+			instance.data.accesscode = FlowRouter.getParam('accesscode');
 			Players.insert({
 				name: Meteor.user().username,
-				room: instance.accesscode,
+				room: instance.data.accesscode,
 			});
 			c.stop();
 		}
 	});
-
 });
 Template.Room.helpers({
-	accesscode() {
+	getRoom() {
 		let instance = Template.instance();
-		return instance.accesscode;
+		let foundRoom = Room.collection.findOne({
+			_id: instance.data.accesscode
+		});
+//		console.log('foundRoom',foundRoom)
+		return foundRoom;
 	},
+});
+
+/*Template._Room.onRendered(function () {
+	let instance = Template.instance();
+//	console.log('Template._Room.onRendered',instance.data.room)
+});*/
+Template._Room.helpers({
 	messages() {
 		let instance = Template.instance();
 		return Message.collection.find({
-			room_id: instance.accesscode
+			room_id: instance.data.room._id
 		}, {
 			sort: {
 				timestamp: 1
@@ -30,23 +39,9 @@ Template.Room.helpers({
 			limit: 5,
 		});
 	},
-	occupancy() {
-		let instance = Template.instance();
-		let foundRoom = Room.collection.findOne({
-			_id: instance.accesscode
-		});
-		return foundRoom && foundRoom.occupancy;
-	},
-	capacity() {
-		let instance = Template.instance();
-		let foundRoom = Room.collection.findOne({
-			_id: instance.accesscode
-		});
-		return foundRoom && foundRoom.capacity;
-	}
 });
 
-Template.Room.events({
+Template._Room.events({
 	'click .js-joingame': function () {
 		console.log('Join game')
 	},
@@ -64,7 +59,20 @@ Template.Room.events({
 		});
 	},
 	'click .js-start': function () {
-		console.log('Start game')
+		let instance = Template.instance();
+
+		let redteam = 'test';
+		let blueteam = 'test';
+		let wordcount = 25;
+		console.log('going to create game')
+		Meteor.call('freelancecourtyard:codenames/createGame',redteam, blueteam, wordcount, function(error, gameId){
+//			console.log('creating game',error, gameId);
+			let foundRoom = instance.data.room;
+//			console.log('instance',instance.data)
+			Meteor.call('rooms/setGameId',foundRoom._id, gameId, function (error, result) {
+				console.log('Updated room gameId',error, result);
+			});
+		});
 	},
 });
 

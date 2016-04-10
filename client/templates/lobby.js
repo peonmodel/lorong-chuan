@@ -54,17 +54,17 @@ Template.Lobby.events({
 	},
 	'click .js-createPrivateRoom' (event) {
 		if (!!Meteor.user()){
-			Meteor.call('rooms/add', false, 7, (err, res)=>{
+			Meteor.call('rooms/add', false, 7, (err, roomId)=>{
 				if (err) {
 					console.error(err);
 				} else {
-					sAlert.success(`Room created, redirecting to room: ${res}`);
+					sAlert.success(`Room created, redirecting to room: ${roomId}`);
 					// redirect to newly created room
-					Meteor.call('rooms/join', res, (error, result)=>{
+					Meteor.call('rooms/join', roomId, (error, result)=>{
 						if (error) {
 							console.log(error);
 						} else {
-							FlowRouter.go('room', {accesscode: res});
+							FlowRouter.go('room', {accesscode: roomId});
 						}
 					});
 				}
@@ -99,7 +99,8 @@ Template.Lobby.events({
 			sAlert.error('Room not found');
 			return;
 		}
-		if (target.capacity > target.occupancy) {
+		// TODO: check if the room is full
+		if (target.capacity > target.spectators.length) {
 			// javascript onbeforeunload to decrement, + refresh
 			console.log('updating join')
 //			Rooms.update(target._id, {$inc: {occupancy: 1}});

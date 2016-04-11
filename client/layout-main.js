@@ -7,9 +7,9 @@ CodeNameWords_G = CodeNameWords;
 CodeNamesCollection_G = CodeNamesCollection;
 //import './main.html';
 
-function createGuest(){
+function createGuest(username) {
 	Accounts.createUser({
-		username: 'user_'+Random.id(7),
+		username: username,
 //		email: '',
 		password: Random.id(),
 		profile: {
@@ -23,6 +23,48 @@ function createGuest(){
 			sAlert.error(`unable to create temporary account`);
 		}
 	});
+}
+
+function createRandomName() {
+	function pickFromArray(items) {
+		return items[Math.floor(Math.random()*items.length)];
+	}
+	let colorArray = [
+		'Pink',
+		'Blue',
+		'Orange',
+		'Green',
+		'Yellow',
+		'Fuchsia',
+		'Red',
+		'Golden'
+	];
+	let sizeArray = [
+		'Little',
+		'Small',
+		'Big',
+		'Fat',
+	];
+	let emotionArray = [
+		'Happy',
+		'Sad',
+		'Depressed',
+		'Excited',
+		'Angry',
+		'Motivated',
+		'Scared',
+		'Energized'
+	];
+	let nounArray = [
+		'Diamond',
+		'JetPack',
+		'Cruiser',
+		'Bunny',
+		'Lambini'
+	];
+	let number = _.sample(_.range(10,99));
+	let tempName = pickFromArray(emotionArray) + pickFromArray(sizeArray) + pickFromArray(colorArray) + pickFromArray(nounArray) + number;
+	return tempName;
 }
 
 Template['layout-main'].onCreated(function(){
@@ -47,14 +89,17 @@ Template['layout-main'].events({
 });
 
 Template.GuestLogIn.events({
-	'click .js-guestlogin'(){
-		createGuest();
+	'click .js-guestlogin'(event, instance){
+		let username = instance.data.tempName;
+		createGuest(username);
 	},
 });
 
 Template.RegisterOrLogin.onCreated(function(){
 	let instance = this;
 	instance.toggled = new ReactiveVar(!Meteor.user());  // maybe no need
+
+	instance.data.tempName = createRandomName();
 	console.log('RegisterOrLogin created')
 });
 

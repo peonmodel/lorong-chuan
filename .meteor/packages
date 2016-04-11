@@ -28,11 +28,11 @@ kadira:blaze-layout
 juliancwirko:s-alert
 momentjs:moment
 #copleykj:livestamp     # TODO: livestamp
-#meteortoys:allthings   # unneeded for now, diagnosing meteor 1.3 problem
+meteortoys:allthings
 semantic:ui
 flemay:less-autoprefixer  # required for semantic-ui to work
 
-#percolate:synced-cron  # unneeded for now, diagnosing meteor 1.3 problem
+#percolate:synced-cron
 fourseven:scss
 aldeed:simple-schema
 

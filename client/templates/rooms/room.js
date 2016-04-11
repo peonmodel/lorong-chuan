@@ -48,9 +48,9 @@ Template._Room.events({
 	'click .js-leavegame': function () {
 		console.log('Leave game')
 	},
-	'click .js-leaveroom': function () {
-		console.log('Leave room')
-		Meteor.call('rooms/leave', function (error, result) {
+	'click .js-leaveroom': function (event, instance) {
+		let roomId = instance.data.room._id;
+		Meteor.call('rooms/leave', roomId, function (error, result) {
 			if (error) {
 				console.log(error);
 			} else {

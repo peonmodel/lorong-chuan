@@ -11,9 +11,16 @@
 <template name="_Room">
 <div class="room">
 	<h1>Access Code: {{accesscode}}</h1>
-	<h2>Players ({{room.occupancy}}/{{room.capacity}}):</h2>
-	{{#each players}}
+	<h2>Players ({{room.players.length}}/{{room.capacity}}):</h2>
+	{{#each room.players}}
 	{{/each}}
+	<br/>
+	<p>
+		<strong>{{room.spectators.length}} users are spectating: </strong>
+		{{#each spectator in room.spectators}}
+			{{spectator.nick_name}}
+		{{/each}}
+	</p>
 	<br/>
 	Game:
 	{{#if room.game_id}}

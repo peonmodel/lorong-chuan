@@ -1,52 +1,51 @@
-##TODO:
+# About
+Lorong is a webapp that enables boardgames to be played online with other players. It features a chat and multiple rooms. Each room hosts 1 game at a time which users can play. An account is not required to play the game.
+This app is made in Meteor with minimal dependency on packages.
 
-###Misc
-setup players collection with temp names
+## Features
+- User and guest accounts
+- Nicknames (TODO)
+- Game rooms (WIP)
+- Chat
+- Online versions of boardgames (TODO)
+- Admin (TODO)
 
-setup CRON job to clear collections
+#### Install
+Requires `lodash` as NPM dependency
 
-###Accounts:
-allow guest accounts to change name
+Do `meteor npm install`
 
-create Guest account with user set name
+#### Notes
+- Continue using `moment` from atmosphere package instead of NPM,
+@peonmodel had some issues with ES6 import for momentjs
+- If any package is used, most often the most popular package is preferred.
+- Bug reports and Pull Requests are welcome
 
-popup for login/guest login/register for optional email etc
+## TODO:
+- [ ] Setup players collection with temp names
+- [ ] Setup CRON job to clear collections
 
-find a way to check for connected(active/idle) and disconnected users
+- ### Accounts:
+- [ ] Allow guest accounts to change name
+- [ ] Create Guest account with user set name
+- [ ] Pop-up for login/guest login/register for optional email etc
+- [ ] Find a way to check for connected(active/idle) and disconnected users
 
-###UI:
-greyed out disable buttons
+- ### UI:
+- [ ] Greyed out disable buttons (@Anima-t3d)
+- [x] Chatbox should have overflow textarea/div to avoid lengthening the screen
 
-chatbox should have overflow textarea/div to avoid lengthening the screen
+- ### Chat
+- [ ] webRTC (@peonmodel)
 
-###Chat
-webRTC
+- ### Games
+- [ ] Add game in main app
+- [ ] Separate game into package
+- [ ] Game schema should have teams & players & room
+- [ ] Create generic game parent class (@peonmodel)
 
-###Games
-add game in main app
-
-separate game into package
-
-game schema should have teams & players & room
-
-create generic game parent class
-
-##Currently doing:
-Create Room, Chat, Players, with unique temp names, host, host powers, room name
-
-Can select game after joining room, each room only 1 game, show the selected game for each room
-
-Players can choose a nickname for each game, is not limited to username, required feature
+## Currently doing:
+- Create Room, Chat, Players, with unique temp names, host, host powers, room name
+- Can select game after joining room, each room only 1 game, show the selected game for each room
+- Players can choose a nickname for each game, is not limited to username, required feature
 for certain games to be played
-
-greyed out disable buttons
-
-####notes
-requires lodash as npm dependency
-
-do `meteor npm install`
-
-####misc notes
-continue using moment from atmosphere package instead of npm, 
-had some issues with ES6 import for momentjs
-

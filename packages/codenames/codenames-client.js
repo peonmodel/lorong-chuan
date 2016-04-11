@@ -1,28 +1,6 @@
 export { CodeNamesCollection };
 export { CodeNameWords };
 
-/*Template.CodeNamesSmartTemplate.onCreated(function(){
-	const instance = this;
-//	let game_subscription = instance.subscribe();
-//	game_subscription.ready(function(){});
-	instance.currentGame = new ReactiveVar(null);
-});
-
-Template.CodeNamesSmartTemplate.helpers({
-	getGame(){
-		return CodeNamesCollection.find();
-	},
-});
-
-Template.CodeNamesSmartTemplate.events({
-	createGame(){
-		//meteor call
-//		Meteor.call('freelancecourtyard:codenames/createGame', 1,1,1,()=>{
-//
-//		});
-	},
-});*/
-
 Template.CodeNames.onRendered(function () {
 	let instance = Template.instance();
 //	console.log('CodeNames.onRendered instance.data',instance.data)

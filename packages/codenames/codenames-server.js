@@ -5,19 +5,33 @@ export { CodeNameWords };
 import { _ } from 'lodash';
 
 //crypto.getRandomValues(new Uint8Array(1))[0];
-function csRandom(bound = 255) {
+// just a vanity better random values
+// for purpose of games, _.random is good enough
+// generates 0 <= n < bound
+function csRandom(bound = 256) {
 	let array = null;
-	if (bound <= 255) {
+	let step = 256;
+	
+	if (bound <= 256) {
+		step = 256;
 		array = new Uint8Array(1);
-	} else if (bound <= 65535) {
+	} else if (bound <= 65536) {
+		step = 65536;
 		array = new Uint16Array(1);
-	} else {
-		// 4294967295
+	} else if (bound <= 4294967296) {
+		step = 4294967296;
 		array = new Uint32Array(1);
+	} else {
+		return null;
 	}
-	let random = crypto.getRandomValues(array)[0];
-	// should repeat, remainder discard
-	return random;
+	let divisor = Math.floor(step/(bound));
+	let remainder = step % (bound);
+	let random = 0;
+	do {
+		// reject values that are remainders
+		random = crypto.getRandomValues(array)[0];
+	} while (random >= (step - remainder));
+	return Math.floor(random/divisor);
 }
 
 function generateWords(wordcount = 25){

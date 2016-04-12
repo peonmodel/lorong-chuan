@@ -16,12 +16,18 @@
 		<strong>{{players.length}} users are playing: </strong>
 		{{#each player in players}}
 			{{player.nick_name}}
+			{{#if player.is_room_admin}}
+				<i class="icon pied piper alternate"></i>
+			{{/if}}
 		{{/each}}
 	</p>
 	<p>
 		<strong>{{spectators.length}} users are spectating: </strong>
 		{{#each spectator in spectators}}
 			{{spectator.nick_name}}
+			{{#if spectator.is_room_admin}}
+				<i class="icon pied piper alternate"></i>
+			{{/if}}
 		{{/each}}
 	</p>
 	<br/>
@@ -37,10 +43,33 @@
 	{{> Chat accesscode=accesscode}}
 	<br/>
 
-	<a class="ui button js-start-game">Start Game</a>
-	<a class="ui button js-stop-game">Stop Game</a>
-	<a class="ui button js-join-game">Join Game</a>
-	<a class="ui button js-leave-game">Leave Game</a>
-	<a class="ui button js-leave-room">Leave Room</a>
+	{{#if isRoomAdmin}}
+		{{#if isGameRunning}}
+			<a class="ui orange button js-stop-game">
+				<i class="icon stop"></i>
+				Stop Game
+			</a>
+		{{else}}
+			<a class="ui green button js-start-game">
+				<i class="icon video play outline"></i>
+				Start Game
+			</a>
+		{{/if}}
+	{{/if}}
+	{{#if isPlayer}}
+		<a class="ui red button js-leave-game">
+			<i class="icon eject"></i>
+			Leave Game
+		</a>
+	{{else}}
+		<a class="ui green button js-join-game">
+			<i class="icon play"></i>
+			Join Game
+		</a>
+	{{/if}}
+	<a class="ui red button js-leave-room">
+		<i class="icon sign out"></i>
+		Leave Room
+	</a>
 </div>
 </template>

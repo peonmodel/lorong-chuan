@@ -1,6 +1,10 @@
 CodeNamesCollection = new Mongo.Collection('CodeNames');
 
 CodeNamesCollection.schema = new SimpleSchema({
+	'_id': {
+		type: String,
+		label: 'Id of the game'
+	},
 	/*players: {
 		type: [Object],
 		label: 'array of players',

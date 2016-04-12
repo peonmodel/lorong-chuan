@@ -33,28 +33,54 @@ Template.Room.helpers({
 Template._Room.helpers({
 	messages() {
 		let instance = Template.instance();
+		let room = instance.data.room;
 		return Message.collection.find({
-			room_id: instance.data.room._id
+			room_id: room._id
 		}, {
 			sort: {
 				timestamp: 1
-			},
-			limit: 5,
+			}/*,
+			limit: 5,*/
 		});
 	},
 	players: function () {
 		let instance = Template.instance();
-		let users = instance.data.room && instance.data.room.users || [];
+		let room = instance.data.room;
+		let users = room && room.users || [];
 		return _.filter(users, function (user) {
 			return !!user.is_player;
 		});
 	},
 	spectators: function () {
 		let instance = Template.instance();
-		let users = instance.data.room && instance.data.room.users || [];
+		let room = instance.data.room;
+		let users = room && room.users || [];
 		return _.filter(users, function (user) {
 			return !user.is_player;
 		});
+	},
+	isRoomAdmin: function () {
+		let instance = Template.instance();
+		let room = instance.data.room;
+		let users = room && room.users || [];
+		let user = _.find(users, function (user) {
+			return user.user_id === Meteor.userId();
+		});
+		return !!user && !!user.is_room_admin;
+	},
+	isPlayer: function () {
+		let instance = Template.instance();
+		let room = instance.data.room;
+		let users = room && room.users || [];
+		let user = _.find(users, function (user) {
+			return user.user_id === Meteor.userId();
+		});
+		return !!user && !!user.is_player;
+	},
+	isGameRunning: function () {
+		let instance = Template.instance();
+		let room = instance.data.room;
+		return !!room.game_id;
 	},
 });
 

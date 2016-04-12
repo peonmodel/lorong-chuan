@@ -1,6 +1,6 @@
 //import { Template } from 'meteor/templating';
 //import { ReactiveVar } from 'meteor/reactive-var';
-import { CodeNameWords, CodeNamesCollection } from "meteor/freelancecourtyard:codenames";
+import { CodeNameWords, CodeNamesCollection } from 'meteor/freelancecourtyard:codenames';
 
 // FIXME: remove this, temp access to console
 CodeNameWords_G = CodeNameWords;
@@ -11,7 +11,8 @@ function createGuest(username) {
 	Accounts.createUser({
 		username: username,
 //		email: '',
-		password: Random.id(),
+		// set guest password to username so easy to retrieve and remember
+		password: username,
 		profile: {
 			is_registered: false,  // is guest user
 			date_created: new Date(),
@@ -37,13 +38,18 @@ function createRandomName() {
 		'Yellow',
 		'Fuchsia',
 		'Red',
-		'Golden'
+		'Golden',
+		'Silver',
+		'Brown'
 	];
 	let sizeArray = [
 		'Little',
 		'Small',
 		'Big',
 		'Fat',
+		'Tiny',
+		'Huge',
+		'Mini',
 	];
 	let emotionArray = [
 		'Happy',
@@ -53,29 +59,53 @@ function createRandomName() {
 		'Angry',
 		'Motivated',
 		'Scared',
-		'Energized'
+		'Energized',
+		'Surprised',
+		'Tired',
 	];
 	let nounArray = [
 		'Diamond',
 		'JetPack',
 		'Cruiser',
 		'Bunny',
-		'Lambini'
+		'Lambini',
+		'Bird',
+		'Elephant',
+		'Frog',
+		'Player',
+		'Lover',
+		'Guest',
+		'User',
+		'Cow',
+		'Mustang',
+		'Student',
+		'Driver',
+		'Hawker',
+		'Villager',
+		'Explorer',
+		'Dancer',
+		'Stranger',
+		'Farmer',
+		'Boat',
+		'Car',
+		'Chicken',
+		'Machine',
+		'Thing',
 	];
-	let number = _.sample(_.range(10,99));
+	let number = _.sample(_.range(10,2110));
 	let tempName = pickFromArray(emotionArray) + pickFromArray(sizeArray) + pickFromArray(colorArray) + pickFromArray(nounArray) + number;
 	return tempName;
 }
 
-Template['layout-main'].onCreated(function(){
+/*Template['layout-main'].onCreated(function(){
 	if (!!Meteor.user() && !!Meteor.loggingIn()){
 		// creates guest account upon reload if not already logged in
 //		createGuest();
 	}
-});
+});*/
 
 Template['layout-main'].events({
-	'click .js-logout'(event){
+	'click .js-logout'(){
 		// TODO: if guest, destroy guest
 //		let user_id = Meteor.userId();
 		Meteor.logout((err)=>{

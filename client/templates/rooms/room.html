@@ -11,13 +11,16 @@
 <template name="_Room">
 <div class="room">
 	<h1>Access Code: {{accesscode}}</h1>
-	<h2>Players ({{room.players.length}}/{{room.capacity}}):</h2>
-	{{#each room.players}}
-	{{/each}}
-	<br/>
+	<h2>Players ({{room.users.length}}/{{room.capacity}}):</h2>
 	<p>
-		<strong>{{room.spectators.length}} users are spectating: </strong>
-		{{#each spectator in room.spectators}}
+		<strong>{{players.length}} users are playing: </strong>
+		{{#each player in players}}
+			{{player.nick_name}}
+		{{/each}}
+	</p>
+	<p>
+		<strong>{{spectators.length}} users are spectating: </strong>
+		{{#each spectator in spectators}}
 			{{spectator.nick_name}}
 		{{/each}}
 	</p>
@@ -34,9 +37,10 @@
 	{{> Chat accesscode=accesscode}}
 	<br/>
 
-	<a class="ui button js-start">Start Game</a>
-	<a class="ui button js-joingame">Join Game</a>
-	<a class="ui button js-leavegame">Leave Game</a>
-	<a class="ui button js-leaveroom">Leave Room</a>
+	<a class="ui button js-start-game">Start Game</a>
+	<a class="ui button js-stop-game">Stop Game</a>
+	<a class="ui button js-join-game">Join Game</a>
+	<a class="ui button js-leave-game">Leave Game</a>
+	<a class="ui button js-leave-room">Leave Room</a>
 </div>
 </template>

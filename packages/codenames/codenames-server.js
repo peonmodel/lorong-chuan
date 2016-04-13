@@ -81,6 +81,9 @@ Meteor.methods({
 //		console.log('gameId',gameId)
 		return gameId;
 	},
+	'freelancecourtyard:codenames/removeGame': function(gameId) {
+		return CodeNamesCollection.remove({_id: gameId});
+	},
 	'freelancecourtyard:codenames/revealGame': function(gameId, isRevealed = true) {
 		return CodeNamesCollection.update({_id: gameId}, {$set:{is_revealed: isRevealed}});
 	},

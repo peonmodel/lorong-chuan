@@ -100,9 +100,9 @@ Template.Lobby.events({
 			return;
 		}
 		// TODO: check if the room is full
-		if (target.capacity > target.spectators.length) {
+		if (target.capacity > target.users.length) {
 			// javascript onbeforeunload to decrement, + refresh
-			console.log('updating join')
+//			console.log('updating join')
 //			Rooms.update(target._id, {$inc: {occupancy: 1}});
 			Meteor.call('rooms/join', accesscode, function (error, result) {
 				if (error) {

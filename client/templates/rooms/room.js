@@ -1,13 +1,16 @@
+/* global Message */
+/* global Room */
+
 Template.Room.onRendered(function () {
 	let instance = this;
 	instance.subscribe('Rooms');
 	instance.autorun(function (c) {
 		if(instance.subscriptionsReady()) {
 			instance.data.accesscode = FlowRouter.getParam('accesscode');
-			Players.insert({
+			/*Players.insert({
 				name: Meteor.user().username,
 				room: instance.data.accesscode,
-			});
+			});*/
 			c.stop();
 		}
 	});
@@ -30,25 +33,75 @@ Template.Room.helpers({
 Template._Room.helpers({
 	messages() {
 		let instance = Template.instance();
+		let room = instance.data.room;
 		return Message.collection.find({
-			room_id: instance.data.room._id
+			room_id: room._id
 		}, {
 			sort: {
 				timestamp: 1
-			},
-			limit: 5,
+			}/*,
+			limit: 5,*/
 		});
+	},
+	players: function () {
+		let instance = Template.instance();
+		let room = instance.data.room;
+		let users = room && room.users || [];
+		return _.filter(users, function (user) {
+			return !!user.is_player;
+		});
+	},
+	spectators: function () {
+		let instance = Template.instance();
+		let room = instance.data.room;
+		let users = room && room.users || [];
+		return _.filter(users, function (user) {
+			return !user.is_player;
+		});
+	},
+	isRoomAdmin: function () {
+		let instance = Template.instance();
+		let room = instance.data.room;
+		let users = room && room.users || [];
+		let user = _.find(users, function (user) {
+			return user.user_id === Meteor.userId();
+		});
+		return !!user && !!user.is_room_admin;
+	},
+	isPlayer: function () {
+		let instance = Template.instance();
+		let room = instance.data.room;
+		let users = room && room.users || [];
+		let user = _.find(users, function (user) {
+			return user.user_id === Meteor.userId();
+		});
+		return !!user && !!user.is_player;
+	},
+	isGameRunning: function () {
+		let instance = Template.instance();
+		let room = instance.data.room;
+		return !!room.game_id;
 	},
 });
 
 Template._Room.events({
-	'click .js-joingame': function () {
-		console.log('Join game')
+	'click .js-join-game': function (event, instance) {
+		let roomId = instance.data.room._id;
+		Meteor.call('rooms/joinGame', roomId, function (error, result) {
+			if (error) {
+				console.log(error);
+			}
+		});
 	},
-	'click .js-leavegame': function () {
-		console.log('Leave game')
+	'click .js-leave-game': function (event, instance) {
+		let roomId = instance.data.room._id;
+		Meteor.call('rooms/leaveGame', roomId, function (error, result) {
+			if (error) {
+				console.log(error);
+			}
+		});
 	},
-	'click .js-leaveroom': function (event, instance) {
+	'click .js-leave-room': function (event, instance) {
 		let roomId = instance.data.room._id;
 		Meteor.call('rooms/leave', roomId, function (error, result) {
 			if (error) {
@@ -58,21 +111,32 @@ Template._Room.events({
 			}
 		});
 	},
-	'click .js-start': function () {
+	'click .js-start-game': function () {
 		let instance = Template.instance();
 
 		let redteam = 'test';
 		let blueteam = 'test';
 		let wordcount = 25;
-		console.log('going to create game')
 		Meteor.call('freelancecourtyard:codenames/createGame',redteam, blueteam, wordcount, function(error, gameId){
 //			console.log('creating game',error, gameId);
 			let foundRoom = instance.data.room;
 //			console.log('instance',instance.data)
 			Meteor.call('rooms/setGameId',foundRoom._id, gameId, function (error, result) {
-				console.log('Updated room gameId',error, result);
+				console.log('Updated room gameId', error, result);
 			});
 		});
+	},
+	'click .js-stop-game': function () {
+		let instance = Template.instance();
+		let foundRoom = instance.data.room;
+		Meteor.call('rooms/setGameId',foundRoom._id, null, function (error, result) {
+			let gameId = foundRoom.game_id;
+			console.log('Updated room gameId', error, result);
+			Meteor.call('freelancecourtyard:codenames/removeGame', gameId, function(error, gameId){
+				console.log('Stopped gameId ' + gameId, error, result);
+			});
+		});
+
 	},
 });
 

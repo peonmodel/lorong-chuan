@@ -13,7 +13,7 @@ This app is made in Meteor with minimal dependency on packages.
 #### Install
 Requires `lodash` as NPM dependency
 
-Do `meteor npm install`
+Do `meteor npm install lodash`
 
 #### Notes
 - Continue using `moment` from atmosphere package instead of NPM,

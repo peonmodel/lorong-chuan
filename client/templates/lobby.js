@@ -1,6 +1,7 @@
 Template.Lobby.onRendered(function(){
 	let instance = this;
 	instance.subscribe('Rooms');
+	instance.subscribe('Messages', 'public');
 });
 
 Template.Lobby.helpers({

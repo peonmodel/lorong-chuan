@@ -26,10 +26,12 @@ Template.Room.helpers({
 	},
 });
 
-/*Template._Room.onRendered(function () {
+Template._Room.onRendered(function () {
 	let instance = Template.instance();
 //	console.log('Template._Room.onRendered',instance.data.room)
-});*/
+	instance.subscribe('Messages', FlowRouter.getParam('accesscode'));
+});
+
 Template._Room.helpers({
 	messages() {
 		let instance = Template.instance();

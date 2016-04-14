@@ -54,43 +54,25 @@ Meteor.publish('CodeNames_Games', function (options = {}) {
 	return CodeNamesCollection.find({}, options);
 });
 
-//CodeNamesWordsCollection_G = CodeNamesWordsCollection;
-
-//Meteor.publish('CodeNames_Words', function(game_id){
-//	
-//	function isClueGiver() {
-//		// Meteor.userId() > is Cluegiver
-//		return false;
-//	}
-//	
-//	let giver = isClueGiver();
-//	
-//	return CodeNamesWordsCollection.find({game_id}, {
-//		transform(obj){
-//			if (giver) {return obj;}
-//			if (!obj.isChosen) {delete obj.team;}
-//			return obj;
-//		},
-//	});
-//		
-////	Error: Publish function returned multiple cursors for collection
-//});
-
 Meteor.publish('CodeNames_Words(Hidden)', function(game_id){
-	
-	function isClueGiver() {
-		// Meteor.userId() > is Cluegiver
-		return false;
-	}
-	
-	let giver = isClueGiver();
-	
+	// same Publish function cannot return multiple cursors for same collection	
 	return CodeNamesWordsCollection.find({game_id}, {
 		fields: {team: 0},
 	});
 });
 
 Meteor.publish('CodeNames_Words(Chosen)', function(game_id){
+	
+	function isClueGiver() {
+		// Meteor.userId() > is Cluegiver
+		// return false when is deciding if words are okay
+		return false;
+	}
+	
+	if (isClueGiver()) {
+		return CodeNamesWordsCollection.find({game_id}, {}); 	
+	}
+	
 	return CodeNamesWordsCollection.find({game_id, isChosen: true}, {});
 });
 

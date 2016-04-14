@@ -1,11 +1,13 @@
 export { CodeNamesCollection };
-export { CodeNameWords };
+export { CodeNamesWordPool };
+export { CodeNamesWordsCollection };
 
 Template.CodeNames.onRendered(function () {
 	let instance = Template.instance();
 //	console.log('CodeNames.onRendered instance.data',instance.data)
 
 	instance.subscribe('CodeNames_Games');
+//	instance.subscribe('CodeNames_Words', 'id');
 	instance.autorun(function (c) {
 		if(instance.subscriptionsReady()) {
 			console.log('CodeNames_Games subscribed')
@@ -24,20 +26,18 @@ Template.CodeNames.helpers({
 	}
 });
 
-/*Template._CodeNames.onRendered(function () {
+Template._CodeNames.onRendered(function () {
 	let instance = Template.instance();
-	console.log('_CodeNames.onRendered instance.data',instance.data)
-});*/
+//	console.log('_CodeNames.onRendered instance.data',instance.data)
+	instance.subscribe('CodeNames_Words', instance.data.game._id);
+});
 
 Template._CodeNames.helpers({
 	getWords(){
 		let instance = Template.instance();
-		let wordlist = [];
 //		console.log('instance.data',instance.data)
-		let gameId = instance.data.game._id;
-		let foundGame = CodeNamesCollection.findOne({_id: gameId});
-//		console.log('foundGame',foundGame)
-		wordlist = instance.data.game.words;
+		let game_id = instance.data.game._id;
+		let wordlist = CodeNamesWordsCollection.find({game_id}).fetch();
 //		console.log('wordlist',wordlist)
 		return wordlist;
 	},
@@ -66,17 +66,16 @@ Template._CodeNamesWord.helpers({
 	showColor() {
 		let instance = Template.instance();
 //		console.log('showColor',instance.data.isRevealed,instance.data.isChosen)
-		return instance.data.isRevealed || instance.data.isChosen;
+		return instance.data.isRevealed || instance.data.word.isChosen;
 	},
 });
 Template._CodeNamesWord.events({
 	'click .codenames-word'(event){
 		let instance = Template.instance();
-//		console.log('click .codenames-word', instance)
-		let gameId = instance.data.gameId;
-		let index = instance.data.index;
-		Meteor.call('freelancecourtyard:codenames/selectWord', gameId, index, function(error, result) {
-//			console.log('clicked word',error,result)
+		console.log(instance.data)
+		let word_id = instance.data.word._id;
+		Meteor.call('freelancecourtyard:codenames/selectWord', word_id, function(error, result) {
+			console.log('clicked word', error, result);
 		});
 	}
 });

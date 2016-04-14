@@ -13,6 +13,7 @@
 	<h1>Access Code: {{accesscode}}</h1>
 	<h2>Players ({{room.users.length}}/{{room.capacity}}):</h2>
 	<p>
+<!--		only show spectating/playing when game is in play-->
 		<strong>{{players.length}} users are playing: </strong>
 		{{#each player in players}}
 			{{player.nick_name}}

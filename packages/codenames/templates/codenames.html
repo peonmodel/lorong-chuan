@@ -26,7 +26,7 @@
 		<div class="ui five column padded grid">
 			<div class="ui row">
 				{{#each item in getWords}}
-					{{> _CodeNamesWord word=item.word team=item.team isChosen=item.isChosen isRevealed=game.is_revealed index=@index gameId=game._id}}
+					{{> _CodeNamesWord word=item isRevealed = game.is_revealed}}
 				{{/each}}
 			</div>
 		</div>
@@ -36,6 +36,6 @@
 
 <template name="_CodeNamesWord">
 	<div class="column codenames-word center aligned" style="cursor: pointer; padding: 2px;">
-		<a class="ui {{#if showColor}}{{team}}{{/if}} fluid button">{{word}}</a>
+		<a class="ui {{#if showColor}}{{word.team}}{{/if}} fluid button">{{word.word}}</a>
 	</div>
 </template>

@@ -1,6 +1,6 @@
 // should only export in main modules
 
-CodeNameWords = [
+CodeNamesWordPool = [
 	'Africa',
 	'Agent',
 	'Air',

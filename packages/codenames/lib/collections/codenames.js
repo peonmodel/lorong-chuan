@@ -40,21 +40,34 @@ CodeNamesCollection.schema = new SimpleSchema({
 	},
 
 	// should have teams, players, room/game id
-	'words': {
-		type: [Object],
-		label: 'array of words',
+});
+
+// words cannot be an array in the game instance, have to be a collection
+//	Minimongo doesn't support operators in projections yet
+//	REFERENCE: https://github.com/meteor/meteor/blob/046de405da50d89e4dc59084393f93a3d2561e2a/packages/minimongo/projection.js#L164-L165
+//	cannot filter out particular key of object within array e.g. 'words.$.color'
+CodeNamesWordsCollection = new Mongo.Collection('CodeNamesWords');
+
+CodeNamesWordsCollection.schema = new SimpleSchema({
+	'_id': {
+		type: String,
+		label: 'Id of the word'
 	},
-	'words.$.word': {
+	'word': {
 		type: String,
 		label: 'word option',
 	},
-	'words.$.team': {
+	'game_id': {
+		type: String,
+		label: 'id of game instance word belongs to'
+	},
+	'isChosen': {
+		type: Boolean,
+		label: 'whether word is selected'
+	},
+	'team': {
 		type: String,
 		label: 'color/team word belongs to',
-		allowedValues: ['red', 'blue', 'yellow', 'black'],
-	},
-	'words.$.isChosen': {
-		type: Boolean,
-		label: 'whether word is selected',
+		allowedValues: ['red', 'blue', 'black', 'yellow'],
 	},
 });

@@ -1,5 +1,5 @@
 export { CodeNamesCollection };
-export { CodeNameWords };
+export { CodeNamesWordPool };
 
 // publish CodeNamesCollection
 import { _ } from 'lodash';
@@ -36,7 +36,7 @@ function csRandom(bound = 256) {
 
 function generateWords(wordcount = 25){
 	let first = (_.random(3) % 2) ? 'red' : 'blue';
-	let words = _.sampleSize(CodeNameWords, wordcount).map((word, idx)=>{
+	let words = _.sampleSize(CodeNamesWordPool, wordcount).map((word, idx)=>{
 		//TODO: account for wordcount different from 25
 		let team = 'white';  // invalid team
 		if (idx === 0){team = 'black';}
@@ -50,14 +50,36 @@ function generateWords(wordcount = 25){
 	return {first, words};
 }
 
-Meteor.publish('CodeNames_Games', function (options) {
-	if ( !options ) {
-		options = {};
-	}
+Meteor.publish('CodeNames_Games', function (options = {}) {
+	return CodeNamesCollection.find({}, options);
+});
 
-	return CodeNamesCollection.find({},
-		options
-	);
+Meteor.publish('CodeNames_Words', function(game_id){
+	
+	function isClueGiver() {
+		// Meteor.userId() > is Cluegiver
+		return true;
+	}
+	
+	let giver = isClueGiver();
+	
+	return CodeNamesWordsCollection.find({game_id}, {
+		transfrom(obj){
+			if (giver) {return obj;}
+			if (!obj.isChosen) {delete obj.team;}
+			return obj;
+		},
+	});
+	
+	// TODO: instead of transfrom, split into different publish function
+	
+//	below doesnt work, even though it should
+//	Error: Publish function returned multiple cursors for collection
+//	let specifier = isClueGiver() ? {} : {fields: {team: 0}};
+//	return [
+//		CodeNamesWordsCollection.find({game_id, isChosen: false}, specifier),
+//		CodeNamesWordsCollection.find({game_id, isChosen: true}, {}),
+//	];
 });
 
 Meteor.methods({
@@ -66,7 +88,8 @@ Meteor.methods({
 //		console.log('freelancecourtyard:codenames/createGame',redteam,blueteam,wordcount)
 		// team = {cluegiver, others}  // player ids
 		let {first, words} = generateWords(wordcount);
-		let gameId = CodeNamesCollection.insert({
+		
+		let game_id = CodeNamesCollection.insert({
 			// TODO: fill in
 			active_team: first,
 			status: 'waiting for players',
@@ -76,19 +99,23 @@ Meteor.methods({
 				{team: 'red', cluegiver: '', teammates: []},
 				{team: 'blue', cluegiver: '', teammates: []},
 			],
-			words,
 		});
-//		console.log('gameId',gameId)
-		return gameId;
+		
+		words.forEach((word)=>{
+			Object.assign(word, {game_id});
+			CodeNamesWordsCollection.insert(word);
+		});
+//		console.log('game_id',game_id)
+		return game_id;
 	},
 	'freelancecourtyard:codenames/removeGame': function(gameId) {
+		// TODO: cleanup the CodeNamesWordsCollection too
 		return CodeNamesCollection.remove({_id: gameId});
 	},
 	'freelancecourtyard:codenames/revealGame': function(gameId, isRevealed = true) {
 		return CodeNamesCollection.update({_id: gameId}, {$set:{is_revealed: isRevealed}});
 	},
-	'freelancecourtyard:codenames/selectWord': function(gameId, index) {
-		let wordKey = 'words.'+index+'.isChosen';
-		return CodeNamesCollection.update({_id: gameId}, {$set:{[wordKey]: true}});
+	'freelancecourtyard:codenames/selectWord': function(word_id) {
+		return CodeNamesWordsCollection.update({_id: word_id}, {$set:{isChosen: true}});
 	},
 });

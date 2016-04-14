@@ -70,4 +70,8 @@ CodeNamesWordsCollection.schema = new SimpleSchema({
 		label: 'color/team word belongs to',
 		allowedValues: ['red', 'blue', 'black', 'yellow'],
 	},
+	'index': {
+		type: Number,
+		label: 'sorting order of word',
+	},
 });

@@ -1,3 +1,8 @@
+Template.RoomListItem.onCreated(function(){
+//	let instance = this;
+//	instance.subscribe('Rooms');
+});
+
 Template.RoomListItem.helpers({
 
 });

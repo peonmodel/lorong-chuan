@@ -54,32 +54,44 @@ Meteor.publish('CodeNames_Games', function (options = {}) {
 	return CodeNamesCollection.find({}, options);
 });
 
-Meteor.publish('CodeNames_Words', function(game_id){
+//CodeNamesWordsCollection_G = CodeNamesWordsCollection;
+
+//Meteor.publish('CodeNames_Words', function(game_id){
+//	
+//	function isClueGiver() {
+//		// Meteor.userId() > is Cluegiver
+//		return false;
+//	}
+//	
+//	let giver = isClueGiver();
+//	
+//	return CodeNamesWordsCollection.find({game_id}, {
+//		transform(obj){
+//			if (giver) {return obj;}
+//			if (!obj.isChosen) {delete obj.team;}
+//			return obj;
+//		},
+//	});
+//		
+////	Error: Publish function returned multiple cursors for collection
+//});
+
+Meteor.publish('CodeNames_Words(Hidden)', function(game_id){
 	
 	function isClueGiver() {
 		// Meteor.userId() > is Cluegiver
-		return true;
+		return false;
 	}
 	
 	let giver = isClueGiver();
 	
 	return CodeNamesWordsCollection.find({game_id}, {
-		transfrom(obj){
-			if (giver) {return obj;}
-			if (!obj.isChosen) {delete obj.team;}
-			return obj;
-		},
+		fields: {team: 0},
 	});
-	
-	// TODO: instead of transfrom, split into different publish function
-	
-//	below doesnt work, even though it should
-//	Error: Publish function returned multiple cursors for collection
-//	let specifier = isClueGiver() ? {} : {fields: {team: 0}};
-//	return [
-//		CodeNamesWordsCollection.find({game_id, isChosen: false}, specifier),
-//		CodeNamesWordsCollection.find({game_id, isChosen: true}, {}),
-//	];
+});
+
+Meteor.publish('CodeNames_Words(Chosen)', function(game_id){
+	return CodeNamesWordsCollection.find({game_id, isChosen: true}, {});
 });
 
 Meteor.methods({
@@ -101,8 +113,8 @@ Meteor.methods({
 			],
 		});
 		
-		words.forEach((word)=>{
-			Object.assign(word, {game_id});
+		words.forEach((word, index)=>{
+			Object.assign(word, {game_id, index});
 			CodeNamesWordsCollection.insert(word);
 		});
 //		console.log('game_id',game_id)

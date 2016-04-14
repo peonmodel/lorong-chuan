@@ -29,7 +29,9 @@ Template.CodeNames.helpers({
 Template._CodeNames.onRendered(function () {
 	let instance = Template.instance();
 //	console.log('_CodeNames.onRendered instance.data',instance.data)
-	instance.subscribe('CodeNames_Words', instance.data.game._id);
+//	instance.subscribe('CodeNames_Words', instance.data.game._id);
+	instance.subscribe('CodeNames_Words(Hidden)', instance.data.game._id);
+	instance.subscribe('CodeNames_Words(Chosen)', instance.data.game._id);
 });
 
 Template._CodeNames.helpers({
@@ -37,7 +39,9 @@ Template._CodeNames.helpers({
 		let instance = Template.instance();
 //		console.log('instance.data',instance.data)
 		let game_id = instance.data.game._id;
-		let wordlist = CodeNamesWordsCollection.find({game_id}).fetch();
+		let wordlist = CodeNamesWordsCollection.find({game_id}).fetch().sort((a, b)=>{
+			return (a.index - b.index);
+		});
 //		console.log('wordlist',wordlist)
 		return wordlist;
 	},

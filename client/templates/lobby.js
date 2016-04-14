@@ -1,5 +1,6 @@
 Template.Lobby.onRendered(function(){
 	let instance = this;
+	instance.subscribe('Rooms');
 });
 
 Template.Lobby.helpers({

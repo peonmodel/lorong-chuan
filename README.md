@@ -44,6 +44,13 @@ Do `meteor npm install lodash`
 - [ ] Game schema should have teams & players & room
 - [ ] Create generic game parent class (@peonmodel)
 
+- ### Players
+- [ ] Create Players collection
+
+- ### CodeNames-specific
+- [ ] Add show/hide words
+- [ ] Replace words during setup
+
 ## Currently doing:
 - Create Room, Chat, Players, with unique temp names, host, host powers, room name
 - Can select game after joining room, each room only 1 game, show the selected game for each room

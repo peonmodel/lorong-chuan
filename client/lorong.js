@@ -1,4 +1,3 @@
-import { CodeNamesWordPool, CodeNamesCollection } from "meteor/freelancecourtyard:codenames";
 import { _ } from "lodash";
 // note, moment package dont support import ES6 syntax
 // reference: https://github.com/moment/moment/issues/2608

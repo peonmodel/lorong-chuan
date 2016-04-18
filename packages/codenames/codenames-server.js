@@ -1,5 +1,6 @@
 export { CodeNamesCollection };
 export { CodeNamesWordPool };
+export { CodeNamesWordsCollection };
 
 // publish CodeNamesCollection
 import { _ } from 'lodash';
@@ -35,7 +36,7 @@ function csRandom(bound = 256) {
 }
 
 function generateWords(wordcount = 25){
-	let first = (_.random(3) % 2) ? 'red' : 'blue';
+	let first = _.random(1) ? 'red' : 'blue';
 	let words = _.sampleSize(CodeNamesWordPool, wordcount).map((word, idx)=>{
 		//TODO: account for wordcount different from 25
 		let team = 'white';  // invalid team
@@ -103,7 +104,7 @@ Meteor.methods({
 		return game_id;
 	},
 	'freelancecourtyard:codenames/removeGame': function(gameId) {
-		// TODO: cleanup the CodeNamesWordsCollection too
+		CodeNamesWordsCollection.remove({game_id: gameId});
 		return CodeNamesCollection.remove({_id: gameId});
 	},
 	'freelancecourtyard:codenames/revealGame': function(gameId, isRevealed = true) {
